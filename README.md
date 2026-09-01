@@ -1,14 +1,14 @@
 # evolusi-pl-535493
 
-Tugas KEPL 2026 Pertemuan 1 - Manajemen GitHub & Prinsip CI
+Tugas Konstruksi dan Evolusi Perangkat Lunak 2026 - Pertemuan 1: Manajemen GitHub & Prinsip CI
 
-NIM: 24/535493/SV/24243 (535493)
-Nama: Hafidz Rizqullah Prasetya
-Kelas: PL5A1
+NIM: 24/535493/SV/24243
+Nama: Hafidz Rizqullah Prasetya - PL5A1
+Organisasi: KEPL2026
 
-Aplikasi kalkulator IP semester sederhana pakai Laravel 13. Buat tugas KEPL, logikanya ngikutin contoh dari KEPL2026/evolusi-pl-contoh tapi aku port ke PHP.
+Kalkulator IP semester sederhana menggunakan Laravel 13. Logika perhitungan diambil dari contoh `KEPL2026/evolusi-pl-contoh` dan diimplementasikan ulang dalam PHP.
 
-## Cara jalanin
+## Menjalankan lokal
 
 ```bash
 composer install
@@ -19,20 +19,20 @@ php artisan serve
 # buka http://127.0.0.1:8000/ip
 ```
 
-test & cek style:
+Pengujian dan cek style:
 
 ```bash
 composer test
 ./vendor/bin/pint --test
 ```
 
-## File penting
+## Struktur
 
-- `app/Services/IpCalculator.php` - logic hitung IP sama validasi NIM
+- `app/Services/IpCalculator.php` - logika `bobot()`, `hitungIP()`, dan `validasiNIM()`
 - `resources/views/ip.blade.php` - halaman kalkulator (/ip)
-- `routes/web.php` - route /ip sama /ip/hitung
+- `routes/web.php` - route `/ip` dan `/ip/hitung`
 - `tests/Unit/IpCalculatorTest.php` - unit test
 
 ## Alur branch
 
-aku pakai `feature/* -> dev -> main`, yang `dev` sama `main` diprotect jadi harus lewat PR baru bisa ke-merge. CI nya ada di `.github/workflows/ci.yml` isinya 2 job (uji sama lint) jalan tiap push/PR ke dev & main.
+Alur branch menggunakan `feature/* -> dev -> main`. Branch `dev` dan `main` diproteksi sehingga perubahan harus melalui Pull Request. CI dikonfigurasi pada `.github/workflows/ci.yml` dengan dua job (uji dan lint) yang berjalan pada setiap push dan pull request ke `dev` dan `main`.
