@@ -4,7 +4,7 @@ namespace App\Services;
 
 class IpCalculator
 {
-    // Bobot nilai huruf pada skala 4.00 (pedoman akademik UGM)
+    // bobot UGM, referensi dari pedoman akademik
     public const BOBOT = [
         'A' => 4.0,
         'AB' => 3.5,
@@ -15,51 +15,42 @@ class IpCalculator
         'E' => 0.0,
     ];
 
-    // Format NIM UGM: 21/475123/PA/20512  ->  2 digit / 6 digit / 2 huruf / 5 digit
+    // NIM UGM contoh: 24/535493/SV/24243
     public const POLA_NIM = '/^\d{2}\/\d{6}\/[A-Z]{2}\/\d{5}$/';
 
     public static function bobot(string $huruf): float
     {
         $key = strtoupper(trim($huruf));
-        if (! array_key_exists($key, self::BOBOT)) {
+        if (! isset(self::BOBOT[$key])) {
             throw new \InvalidArgumentException("Nilai huruf tidak dikenal: {$huruf}");
         }
 
         return self::BOBOT[$key];
     }
 
-    /**
-     * @param  array<int, array{sks: mixed, nilai: string}>  $mataKuliah
-     */
     public static function hitungIP(array $mataKuliah): float
     {
-        if (count($mataKuliah) === 0) {
+        if (empty($mataKuliah)) {
             throw new \InvalidArgumentException('Daftar mata kuliah tidak boleh kosong');
         }
 
         $totalSks = 0;
-        $totalMutu = 0.0;
+        $totalMutu = 0;
 
         foreach ($mataKuliah as $mk) {
             if (! isset($mk['sks']) || ! isset($mk['nilai'])) {
                 throw new \InvalidArgumentException('Data mata kuliah tidak lengkap');
             }
 
-            $sksRaw = $mk['sks'];
+            $sks = $mk['sks'];
 
-            if (! is_numeric($sksRaw)) {
-                throw new \InvalidArgumentException("SKS harus bilangan bulat positif: {$sksRaw}");
+            if (! is_numeric($sks) || floor((float) $sks) != (float) $sks || (float) $sks <= 0) {
+                throw new \InvalidArgumentException("SKS harus bilangan bulat positif: {$sks}");
             }
 
-            $sksFloat = (float) $sksRaw;
-
-            if (floor($sksFloat) != $sksFloat || $sksFloat <= 0) {
-                throw new \InvalidArgumentException("SKS harus bilangan bulat positif: {$sksRaw}");
-            }
-
-            $sks = (int) $sksFloat;
+            $sks = (int) $sks;
             $totalSks += $sks;
-            $totalMutu += self::bobot((string) $mk['nilai']) * $sks;
+            $totalMutu += self::bobot($mk['nilai']) * $sks;
         }
 
         return round($totalMutu / $totalSks, 2);
@@ -67,6 +58,6 @@ class IpCalculator
 
     public static function validasiNIM(string $nim): bool
     {
-        return (bool) preg_match(self::POLA_NIM, strtoupper(trim($nim)));
+        return preg_match(self::POLA_NIM, strtoupper(trim($nim))) === 1;
     }
 }

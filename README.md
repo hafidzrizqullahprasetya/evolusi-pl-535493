@@ -1,48 +1,38 @@
 # evolusi-pl-535493
 
-Repository tugas **Konstruksi dan Evolusi Perangkat Lunak 2026** — Pertemuan 1: Manajemen GitHub & Prinsip CI.
+Tugas KEPL 2026 Pertemuan 1 - Manajemen GitHub & Prinsip CI
 
-- NIM: **24/535493/SV/24243** (535493)
-- Nama: **Hafidz Rizqullah Prasetya**
-- Kelas: **PL5A1**
-- Org: [KEPL2026](https://github.com/KEPL2026)
+NIM: 24/535493/SV/24243 (535493)
+Nama: Hafidz Rizqullah Prasetya
+Kelas: PL5A1
 
-Aplikasi web sederhana **Laravel 13** — Kalkulator IP Semester (port PHP dari `ip.js` contoh `KEPL2026/evolusi-pl-contoh`).
+Aplikasi kalkulator IP semester sederhana pakai Laravel 13. Buat tugas KEPL, logikanya ngikutin contoh dari KEPL2026/evolusi-pl-contoh tapi aku port ke PHP.
 
-## Menjalankan lokal
+## Cara jalanin
 
 ```bash
 composer install
 cp .env.example .env
 php artisan key:generate
-php artisan migrate --force
-php artisan serve      # http://127.0.0.1:8000
-composer test          # php artisan test
-./vendor/bin/pint --test  # cek style
+php artisan migrate
+php artisan serve
+# buka http://127.0.0.1:8000/ip
 ```
 
-## Struktur
+test & cek style:
 
-| Berkas | Isi |
-|---|---|
-| `app/Services/IpCalculator.php` | Logika murni `bobot()` & `hitungIP()` |
-| `resources/views/welcome.blade.php` | Halaman beranda |
-| `resources/views/ip.blade.php` | Halaman kalkulator IP |
-| `tests/Unit/IpCalculatorTest.php` | Pengujian unit |
-| `tests/Feature/IpPageTest.php` | Pengujian halaman |
+```bash
+composer test
+./vendor/bin/pint --test
+```
+
+## File penting
+
+- `app/Services/IpCalculator.php` - logic hitung IP sama validasi NIM
+- `resources/views/ip.blade.php` - halaman kalkulator (/ip)
+- `routes/web.php` - route /ip sama /ip/hitung
+- `tests/Unit/IpCalculatorTest.php` - unit test
 
 ## Alur branch
 
-```
-feature/<sesuatu> --PR--> dev --PR--> main
-```
-
-`main` dan `dev` diproteksi — tidak boleh push langsung, wajib lewat PR dan status check hijau.
-
-## CI
-
-`.github/workflows/ci.yml` — dua job paralel (`uji` & `lint`) jalan di setiap push/PR ke `dev` & `main`.
-
-## NIM
-
-535493
+aku pakai `feature/* -> dev -> main`, yang `dev` sama `main` diprotect jadi harus lewat PR baru bisa ke-merge. CI nya ada di `.github/workflows/ci.yml` isinya 2 job (uji sama lint) jalan tiap push/PR ke dev & main.
