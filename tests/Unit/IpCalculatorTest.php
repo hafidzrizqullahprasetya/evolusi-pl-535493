@@ -26,7 +26,7 @@ class IpCalculatorTest extends TestCase
         IpCalculator::bobot('Z');
     }
 
-    public function test_hitungIP_menghitung_rata_rata_berbobot_sks(): void
+    public function test_hitung_i_p_menghitung_rata_rata_berbobot_sks(): void
     {
         $mk = [
             ['nama' => 'Evolusi & Konstruksi PL', 'sks' => 3, 'nilai' => 'A'],
@@ -37,7 +37,7 @@ class IpCalculatorTest extends TestCase
         $this->assertEquals(3.5, IpCalculator::hitungIP($mk));
     }
 
-    public function test_hitungIP_membulatkan_ke_dua_angka_di_belakang_koma(): void
+    public function test_hitung_i_p_membulatkan_ke_dua_angka_di_belakang_koma(): void
     {
         $mk = [
             ['nama' => 'A', 'sks' => 3, 'nilai' => 'A'],
@@ -47,28 +47,43 @@ class IpCalculatorTest extends TestCase
         $this->assertEquals(3.4, IpCalculator::hitungIP($mk));
     }
 
-    public function test_hitungIP_menolak_daftar_kosong(): void
+    public function test_hitung_i_p_menolak_daftar_kosong(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/tidak boleh kosong/');
         IpCalculator::hitungIP([]);
     }
 
-    public function test_hitungIP_menolak_sks_bukan_bilangan_bulat_positif(): void
+    public function test_hitung_i_p_menolak_sks_bukan_bilangan_bulat_positif(): void
     {
         $this->expectException(InvalidArgumentException::class);
         IpCalculator::hitungIP([['sks' => 0, 'nilai' => 'A']]);
     }
 
-    public function test_hitungIP_menolak_sks_negatif(): void
+    public function test_hitung_i_p_menolak_sks_negatif(): void
     {
         $this->expectException(InvalidArgumentException::class);
         IpCalculator::hitungIP([['sks' => -2, 'nilai' => 'A']]);
     }
 
-    public function test_hitungIP_menolak_sks_float(): void
+    public function test_hitung_i_p_menolak_sks_float(): void
     {
         $this->expectException(InvalidArgumentException::class);
         IpCalculator::hitungIP([['sks' => 2.5, 'nilai' => 'A']]);
+    }
+
+    public function test_validasi_n_i_m_menerima_format_n_i_m_u_g_m_yang_benar(): void
+    {
+        $this->assertTrue(IpCalculator::validasiNIM('24/535493/SV/24243'));
+        $this->assertTrue(IpCalculator::validasiNIM('21/475123/PA/20512'));
+        $this->assertTrue(IpCalculator::validasiNIM(' 22/500001/pa/21000 '));
+    }
+
+    public function test_validasi_n_i_m_menolak_n_i_m_tidak_valid(): void
+    {
+        $this->assertFalse(IpCalculator::validasiNIM('535493'));
+        $this->assertFalse(IpCalculator::validasiNIM('24-535493-SV-24243'));
+        $this->assertFalse(IpCalculator::validasiNIM('24/53549/SV/24243'));
+        $this->assertFalse(IpCalculator::validasiNIM(''));
     }
 }
