@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  uji:
+    name: Uji unit & fitur
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+
+      - name: Siapkan PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install dependensi
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Siapkan env
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+          php artisan migrate --force
+
+      - name: Jalankan pengujian
+        run: ./vendor/bin/phpunit --testdox
+
+  lint:
+    name: Lint style (Pint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+
+      - name: Siapkan PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install dependensi
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Periksa style
+        run: ./vendor/bin/pint --test
