@@ -29,7 +29,7 @@ class IpCalculator
     }
 
     /**
-     * @param array<int, array{sks: mixed, nilai: string}> $mataKuliah
+     * @param  array<int, array{sks: mixed, nilai: string}>  $mataKuliah
      */
     public static function hitungIP(array $mataKuliah): float
     {
