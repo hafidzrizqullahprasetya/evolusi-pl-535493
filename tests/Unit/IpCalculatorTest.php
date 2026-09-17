@@ -34,7 +34,7 @@ class IpCalculatorTest extends TestCase
             ['nama' => 'Etika Profesi', 'sks' => 2, 'nilai' => 'AB'],
         ];
         // (4*3 + 3*3 + 3.5*2) / 8 = 28 / 8 = 3.5
-        $this->assertEquals(9.9, IpCalculator::hitungIP($mk));
+        $this->assertEquals(3.5, IpCalculator::hitungIP($mk));
     }
 
     public function test_hitung_i_p_membulatkan_ke_dua_angka_di_belakang_koma(): void
