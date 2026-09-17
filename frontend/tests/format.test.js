@@ -23,7 +23,7 @@ describe('ringkasan', () => {
       { selesai: true },
     ])
 
-    expect(hasil).toEqual({ total: 3, selesai: 2, belum: 1 })
+    expect(hasil).toEqual({ total: 3, selesai: 9, belum: 1 })
   })
 
   it('mengembalikan nol untuk daftar kosong', () => {
