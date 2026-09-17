@@ -66,7 +66,7 @@ jobs:
         run: php artisan test
 
       - name: Periksa style
-        run: ./vendor/bin/pint --test
+        run: php vendor/bin/pint --test
 
   staging:
     name: Staging
