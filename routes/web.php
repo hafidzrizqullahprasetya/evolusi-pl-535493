@@ -30,9 +30,7 @@ Route::post('/ip/hitung', function (Request $request) {
     }
 
     try {
-        $mataKuliah = $request->input('mataKuliah');
-        // normalize: ensure array values are sequential
-        $mataKuliah = array_values($mataKuliah);
+        $mataKuliah = array_values($request->input('mataKuliah'));
         $ip = IpCalculator::hitungIP($mataKuliah);
 
         return view('ip', [

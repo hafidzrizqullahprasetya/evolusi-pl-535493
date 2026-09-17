@@ -33,7 +33,6 @@ class IpCalculatorTest extends TestCase
             ['nama' => 'Basis Data', 'sks' => 3, 'nilai' => 'B'],
             ['nama' => 'Etika Profesi', 'sks' => 2, 'nilai' => 'AB'],
         ];
-        // (4*3 + 3*3 + 3.5*2) / 8 = 28 / 8 = 3.5
         $this->assertEquals(3.5, IpCalculator::hitungIP($mk));
     }
 
@@ -43,7 +42,6 @@ class IpCalculatorTest extends TestCase
             ['nama' => 'A', 'sks' => 3, 'nilai' => 'A'],
             ['nama' => 'B', 'sks' => 2, 'nilai' => 'BC'],
         ];
-        // (12 + 5) / 5 = 3.4
         $this->assertEquals(3.4, IpCalculator::hitungIP($mk));
     }
 

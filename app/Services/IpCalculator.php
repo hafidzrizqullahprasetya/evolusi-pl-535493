@@ -4,7 +4,6 @@ namespace App\Services;
 
 class IpCalculator
 {
-    // bobot UGM, referensi dari pedoman akademik
     public const BOBOT = [
         'A' => 4.0,
         'AB' => 3.5,
@@ -15,7 +14,6 @@ class IpCalculator
         'E' => 0.0,
     ];
 
-    // NIM UGM contoh: 24/535493/SV/24243
     public const POLA_NIM = '/^\d{2}\/\d{6}\/[A-Z]{2}\/\d{5}$/';
 
     public static function bobot(string $huruf): float
