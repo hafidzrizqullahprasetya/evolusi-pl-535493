@@ -1,0 +1,35 @@
+name: Docker
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    name: Build & Push GHCR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Siapkan nama image huruf kecil
+        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Login ke GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t "ghcr.io/${IMAGE_NAME}:${{ github.sha }}" \
+            -t "ghcr.io/${IMAGE_NAME}:latest" .
+
+      - name: Push Docker image ke GHCR
+        run: |
+          docker push "ghcr.io/${IMAGE_NAME}:${{ github.sha }}"
+          docker push "ghcr.io/${IMAGE_NAME}:latest"
